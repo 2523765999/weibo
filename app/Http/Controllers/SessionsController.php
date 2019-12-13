@@ -26,4 +26,11 @@ class SessionsController extends Controller
             return redirect()->back()->withInput();//失败后，withInput能将填写信息返回到old内
         }
     }
+
+    public function destory()
+    {
+        Auth::logout();
+        session()->flash('success', '退出成功');
+        return redirect('login');
+    }
 }

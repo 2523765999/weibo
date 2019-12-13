@@ -35,4 +35,6 @@ class UsersController extends Controller
         return redirect()->route('users.show',[$user]);//写法注意
     }
 
+
+
 }
