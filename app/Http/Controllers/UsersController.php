@@ -7,7 +7,17 @@ use App\Models\User;//
 use Illuminate\Support\Facades\Auth;
 class UsersController extends Controller
 {
-	public function create()
+    public function __construct()
+    {
+        $this->middleware('auth',[
+            'except' => ['create','show','store']
+        ]);
+        $this->middleware('guest',[
+            'only' => ['create']
+        ]);
+    }
+
+    public function create()
 	{
 		return view('users.create');
 	}
@@ -37,6 +47,7 @@ class UsersController extends Controller
 
     public function edit(User $user)
     {
+        $this->authorize('update', $user);
         return view('users.edit',compact('user'));
     }
 
@@ -51,6 +62,7 @@ class UsersController extends Controller
             'name' => $request->name,
             'password' => bcrypt($request->password)
         ]);*/
+        $this->authorize('update', $user);
         $data = [];
         $data['name'] = $request->name;
 //        if ($request->has('password')) {
