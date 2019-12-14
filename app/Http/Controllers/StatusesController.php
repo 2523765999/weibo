@@ -19,7 +19,7 @@ class StatusesController extends Controller
             'content' => 'required|max:140',
         ]);
         Auth::user()->statuses()->create([
-            'content' => $request->content,
+            'content' => $request['content'],
         ]);
         session()->flash('success', '微博发布成功！');
         return redirect()->back();
