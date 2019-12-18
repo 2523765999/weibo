@@ -29,3 +29,10 @@ Route::post('login','SessionsController@store')->name('login');
 Route::delete('logout','SessionsController@destory')->name('logout');
 
 Route::resource('statuses', 'StatusesController', ['only' => ['store', 'destroy']]);
+
+//关注的人
+Route::get('/users/{user}/followings', 'UsersController@followings')->name('users.followings');
+//粉丝
+Route::get('/users/{user}/followers', 'UsersController@followers')->name('users.followers');
+
+
