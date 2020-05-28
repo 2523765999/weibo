@@ -10,11 +10,18 @@ class UsersController extends Controller
     public function __construct()
     {
         $this->middleware('auth',[
-            'except' => ['create','show','store']
+            'except' => ['create','show','store', 'index']
         ]);
         $this->middleware('guest',[
             'only' => ['create']
         ]);
+    }
+
+    public function index()
+    {
+//        $users = User::all();
+        $users = User::paginate(10);
+        return view('users.index', compact('users'));
     }
 
     public function create()
@@ -24,9 +31,14 @@ class UsersController extends Controller
 
 	public function show(User $user)
 	{
-	    $statuses = $user->statuses()
+//	    dd(is_object($user));
+//        dd($user);
+//	    dd(compact('user'));
+        $statuses = $user->statuses()
                             ->orderBy('created_at')
                             ->paginate(10);
+//        dd(compact('user','statuses'));
+//        dd($user['attributes']);
 //		return view('users.show',compact('user'));
 		return view('users.show',compact('user','statuses'));
 	}
@@ -78,6 +90,14 @@ class UsersController extends Controller
 
 //        return redirect()->route('users.show',$user->id);
         return redirect()->route('users.show',$user);
+    }
+
+    public function destroy(User $user)
+    {
+        $this->authorize('destroy', $user);
+        $user->delete();
+        session()->flash('success', '成功删除用户！');
+        return back();//最后将用户重定向到上一次进行删除操作的页面，即用户列表页。
     }
 
     public function followings(User $user)

@@ -25,10 +25,11 @@ class SessionsController extends Controller
             'email' => 'required|max:255',
             'password' => 'required'
         ]);
+//        dd($credentials);
         if (Auth::attempt($credentials, $request->has('remember'))){
             $fallback = route('users.show', Auth::user());
             session()->flash('success','欢迎回来');
-//            return redirect()->route('users.show',[Auth::user()]);//获取当前登录用户信息
+//            return redirect()->route('users.show', [Auth::user()]);//获取当前登录用户信息
             return redirect()->intended($fallback);//获取当前登录用户信息
         } else {
             session()->flash('danger', '很抱歉，您的邮箱和密码不匹配');
