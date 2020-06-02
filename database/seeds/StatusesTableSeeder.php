@@ -26,7 +26,7 @@ class StatusesTableSeeder extends Seeder
         $user_ids = ['1','2','3','4','5','6','7','8','9'];
         $faker = app(Faker\Generator::class);
         $statuses = factory(Status::class)->times(100)->make()->each(function ($status) use($faker, $user_ids) {
-        $status->user_id = $faker->randomElement($user_ids);
+            $status->user_id = $faker->randomElement($user_ids);
         });
         Status::insert($statuses->toArray());
 
